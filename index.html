@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenTraffic - 智能交通信号控制系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+        
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
+        
+        /* Hero 区域 */
+        .hero {
+            padding: 180px 60px 100px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            padding: 14px 36px;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            color: #0f172a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
+        }
+        
+        /* 特性卡片 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 80px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #f1f5f9;
+        }
+        
+        .feature-card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        
+        /* 代码示例 */
+        .code-section {
+            padding: 80px 60px;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        
+        .code-section h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+        
+        pre {
+            background: #0f172a;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        code {
+            color: #38bdf8;
+        }
+        
+        .comment { color: #64748b; }
+        .keyword { color: #c084fc; }
+        .string { color: #4ade80; }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+        }
+        
+        footer a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">🚦 OpenTraffic</div>
+        <div class="nav-links">
+            <a href="#features">特性</a>
+            <a href="#code">快速开始</a>
+            <a href="https://github.com/OpenTraffic-Team/LightTest">GitHub</a>
+        </div>
+    </nav>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <h1>智能交通信号控制</h1>
+        <p>基于深度强化学习的交通信号优化系统，自动适应交通流量变化，提升路口通行效率30%+</p>
+        <a href="#code" class="btn-primary">快速开始 →</a>
+    </section>
+    
+    <!-- 特性 -->
+    <section class="features" id="features">
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>AI 驱动</h3>
+            <p>深度强化学习模型，自动优化信号配时策略</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>实时响应</h3>
+            <p>毫秒级决策，适应动态交通流量变化</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>安全优先</h3>
+            <p>多层安全规则检查，确保交通运行安全</p>
+        </div>
+    </section>
+    
+    <!-- 代码示例 -->
+    <section class="code-section" id="code">
+        <h2>快速开始</h2>
+        <pre><code><span class="keyword">from</span> algorithms_sdk <span class="keyword">import</span> AlgorithmSDK
+
+<span class="comment"># 创建SDK实例</span>
+sdk = AlgorithmSDK(
+    mode=<span class="string">"cityflow"</span>,
+    config_path=<span class="string">"config/net.json"</span>
+)
+
+<span class="comment"># 获取决策</span>
+result = sdk.step(state, env_state)
+<span class="keyword">print</span>(f<span class="string">"推荐相位: {result.action.phase}"</span>)</code></pre>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <p>Built with ❤️ by <a href="https://github.com/OpenTraffic-Team">OpenTraffic Team</a></p>
+    </footer>
+</body>
+</html>
