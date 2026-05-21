@@ -445,63 +445,183 @@
         .t-paren { color: #94a3b8; }
 
         /* ---- Architecture ---- */
-        .arch-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-top: 60px;
+        .arch-flow {
+            margin-top: 56px;
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            position: relative;
         }
 
-        .arch-layer {
+        .arch-step {
+            flex: 1;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
+            border-radius: var(--radius-lg);
             padding: 28px 24px;
-            text-align: center;
-        }
-
-        .arch-layer-label {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-
-        .arch-items {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 0;
+            position: relative;
+            transition: all 0.2s;
         }
 
-        .arch-item {
+        .arch-step:hover {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+
+        .arch-step-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 8px 12px;
-            background: var(--bg-subtle);
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 16px;
         }
 
-        .arch-item.active {
+        .arch-step-icon.icon-sense { background: #eff6ff; }
+        .arch-step-icon.icon-comm  { background: #f5f3ff; }
+        .arch-step-icon.icon-algo  { background: #f0fdf4; }
+        .arch-step-icon.icon-act   { background: #fff7ed; }
+
+        .arch-step-num {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .arch-step-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            letter-spacing: -0.2px;
+        }
+
+        .arch-step-items {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: auto;
+        }
+
+        .arch-step-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            background: var(--bg-subtle);
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.15s;
+        }
+
+        .arch-step-item:hover {
             background: var(--accent-light);
             color: var(--accent);
         }
 
-        .arch-arrow {
+        .arch-step-item .item-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .arch-step-item .item-dot.blue   { background: #2563eb; }
+        .arch-step-item .item-dot.purple { background: #7c3aed; }
+        .arch-step-item .item-dot.green  { background: #16a34a; }
+        .arch-step-item .item-dot.orange { background: #ea580c; }
+
+        .arch-step-item.active {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .arch-connector {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--border-strong);
-            font-size: 18px;
-            margin: 8px 0;
+            width: 48px;
+            flex-shrink: 0;
+            position: relative;
         }
+
+        .arch-connector-line {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--border), var(--accent), var(--border));
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .arch-connector-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .arch-detail-cards {
+            margin-top: 48px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .arch-detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: all 0.2s;
+        }
+
+        .arch-detail-card:hover {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .arch-detail-card h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .arch-detail-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .arch-detail-card .detail-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .arch-detail-card .tag-blue   { background: #eff6ff; color: #2563eb; }
+        .arch-detail-card .tag-purple { background: #f5f3ff; color: #7c3aed; }
+        .arch-detail-card .tag-green  { background: #f0fdf4; color: #16a34a; }
+        .arch-detail-card .tag-orange { background: #fff7ed; color: #ea580c; }
 
         /* ---- CTA ---- */
         .example-link {
@@ -605,9 +725,138 @@
             color: var(--text-primary);
         }
 
+        /* ---- Demo Video Sections ---- */
+        .demo-section {
+            padding: 100px 80px;
+            border-top: 1px solid var(--border);
+        }
+
+        .demo-section:nth-child(even) {
+            background: var(--bg-subtle);
+        }
+
+        .demo-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            margin-bottom: 48px;
+        }
+
+        .demo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .demo-title {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .demo-desc {
+            font-size: 17px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 640px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .demo-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .demo-item:hover {
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .demo-item-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-subtle);
+        }
+
+        .demo-item-label .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .demo-item-label .dot-orange { background: #f97316; }
+        .demo-item-label .dot-green { background: #16a34a; }
+        .demo-item-label .dot-blue { background: #2563eb; }
+        .demo-item-label .dot-purple { background: #7c3aed; }
+
+        .demo-media {
+            position: relative;
+            width: 100%;
+        }
+
+        .demo-media video {
+            width: 100%;
+            display: block;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .demo-media img {
+            width: 100%;
+            display: block;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .demo-caption {
+            padding: 14px 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            border-top: 1px solid var(--border);
+            background: var(--bg-subtle);
+        }
+
+        .demo-comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
         /* ---- Responsive ---- */
         @media (max-width: 1024px) {
-            nav, .section, .hero, .stats-bar, .code-section, .cta-section, footer {
+            nav, .section, .hero, .stats-bar, .code-section, .cta-section, footer, .demo-section {
                 padding-left: 40px;
                 padding-right: 40px;
             }
@@ -615,10 +864,16 @@
             .code-inner { grid-template-columns: 1fr; gap: 40px; }
             .stats-inner { grid-template-columns: repeat(2, 1fr); }
             .hero h1 { font-size: 48px; }
+            .demo-grid, .demo-comparison-grid { grid-template-columns: 1fr; }
+            .arch-flow { flex-direction: column; }
+            .arch-connector { width: auto; height: 32px; justify-content: center; }
+            .arch-connector-line { width: 2px; height: 100%; background: linear-gradient(180deg, var(--border), var(--accent), var(--border)); }
+            .arch-connector-line::after { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+            .arch-detail-cards { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 640px) {
-            nav, .section, .hero, .stats-bar, .code-section, .cta-section, footer {
+            nav, .section, .hero, .stats-bar, .code-section, .cta-section, footer, .demo-section {
                 padding-left: 20px;
                 padding-right: 20px;
             }
@@ -626,6 +881,8 @@
             .hero h1 { font-size: 36px; }
             .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
             .stat-value { font-size: 32px; }
+            .demo-grid, .demo-comparison-grid { grid-template-columns: 1fr; }
+            .arch-detail-cards { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -639,6 +896,7 @@
         </a>
         <div class="nav-links">
             <a href="#features">特性</a>
+            <a href="#demo-basic">应用展示</a>
             <a href="#architecture">架构</a>
             <a href="https://github.com/OpenTraffic-Team/OpenTraffic-Control/tree/main/algorithms_sdk/examples">快速开始</a>
             <a href="https://github.com/OpenTraffic-Team/OpenTraffic-Control" target="_blank" class="nav-github">
@@ -678,7 +936,7 @@
                 <div class="stat-label">自适应算法</div>
             </div>
             <div class="stat-item">
-                <div class="stat-value">&lt;10ms</div>
+                <div class="stat-value">&lt;100ms</div>
                 <div class="stat-label">决策延迟</div>
             </div>
             <div class="stat-item">
@@ -709,14 +967,14 @@
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                 </div>
                 <h3>多算法自适应</h3>
-                <p>内置 v1 规则（MaxPressure）、v2 离线 RL、v3 在线 RL，支持按置信度/流量自动降级切换，稳定兜底。</p>
+                <p>内置 v1 规则（稳定RL）、v2 离线 RL、v3 在线 RL，支持按置信度/流量自动降级切换，稳定兜底。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon icon-green">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
                 <h3>实时毫秒决策</h3>
-                <p>单次决策耗时小于 10ms，支持 1Hz 实时控制循环，满足生产环境严苛时延要求。</p>
+                <p>单次决策耗时小于 100ms，支持 1Hz 实时控制循环，满足生产环境严苛时延要求。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon icon-purple">
@@ -749,6 +1007,94 @@
         </div>
     </section>
 
+    <!-- Demo 1: 算法应用展示 -->
+    <section class="demo-section" id="demo-basic">
+        <div class="demo-inner">
+            <div class="demo-header">
+                <div class="demo-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    应用展示
+                </div>
+                <h2 class="demo-title">基础算法应用展示</h2>
+                <p class="demo-desc">
+                    展示核心交通信号控制算法的基础运作原理，包括相序调度、绿信比分配等关键机制的可视化演示。
+                </p>
+            </div>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-item-label">
+                        <span class="dot dot-blue"></span>
+                        仿真演示视频
+                    </div>
+                    <div class="demo-media">
+                        <video controls poster="media/jichu.png">
+                            <source src="media/jichu.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放，请升级浏览器。
+                        </video>
+                    </div>
+                    <div class="demo-caption">基础算法仿真运行演示，包含完整的信号周期变化过程</div>
+                </div>
+                <div class="demo-item">
+                    <div class="demo-item-label">
+                        <span class="dot dot-blue"></span>
+                        仿真截图
+                    </div>
+                    <div class="demo-media">
+                        <img src="media/jichu.png" alt="基础算法仿真截图">
+                    </div>
+                    <div class="demo-caption">CityFlow 仿真环境下算法运行状态截图</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo 2: 溢出场景与算法解决 -->
+    <section class="demo-section" id="demo-overflow">
+        <div class="demo-inner">
+            <div class="demo-header">
+                <div class="demo-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    实战场景
+                </div>
+                <h2 class="demo-title">溢出场景与算法解决</h2>
+                <p class="demo-desc">
+                    对比展示同一路口在高饱和流量下的两种状态：左侧为无算法控制时的溢出拥堵场景，右侧为算法介入后的优化效果，直观呈现系统的实际价值。
+                </p>
+            </div>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="demo-item-label">
+                        <span class="dot dot-orange"></span>
+                        溢出场景 — 无算法控制
+                    </div>
+                    <div class="demo-media">
+                        <video controls>
+                            <source src="media/yichu1.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放，请升级浏览器。
+                        </video>
+                    </div>
+                    <div class="demo-caption">高峰期无信号优化控制时，车辆排队溢出、路口死锁的拥堵场景</div>
+                </div>
+                <div class="demo-item">
+                    <div class="demo-item-label">
+                        <span class="dot dot-green"></span>
+                        算法介入 — 溢出解决效果
+                    </div>
+                    <div class="demo-media">
+                        <video controls playsinline>
+                            <source src="media/yichujiejue.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放，请升级浏览器。
+                        </video>
+                    </div>
+                    <div class="demo-caption">
+                        算法实时调度后，同一路口排队消散、恢复畅通的优化效果。
+                        <a href="media/yichujiejue.mp4" download style="color: var(--accent); text-decoration: none; font-weight: 600; margin-left: 4px;">下载视频</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Architecture -->
     <section class="section" id="architecture">
         <div class="section-label">
@@ -760,42 +1106,103 @@
             PolicyManager 统一调度，感知层 → 算法层 → 执行层分离，支持按需替换任意组件。
         </p>
 
-        <div class="arch-grid">
-            <div class="arch-layer">
-                <div class="arch-layer-label">感知层</div>
-                <div class="arch-items">
-                    <div class="arch-item">相机</div>
-                    <div class="arch-item">雷达</div>
-                    <div class="arch-item">平台下发</div>
+        <div class="arch-flow">
+            <!-- 感知层 -->
+            <div class="arch-step">
+                <div class="arch-step-icon icon-sense">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="arch-step-num">STEP 01</div>
+                <div class="arch-step-name">感知层</div>
+                <div class="arch-step-items">
+                    <div class="arch-step-item"><span class="item-dot blue"></span>视频相机</div>
+                    <div class="arch-step-item"><span class="item-dot blue"></span>毫米波雷达</div>
+                    <div class="arch-step-item"><span class="item-dot blue"></span>平台下发数据</div>
+                    <div class="arch-step-item"><span class="item-dot blue"></span>地磁/线圈</div>
                 </div>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-layer">
-                <div class="arch-layer-label">通信层</div>
-                <div class="arch-items">
-                    <div class="arch-item">Redis</div>
-                    <div class="arch-item">NATS</div>
-                    <div class="arch-item">MQTT</div>
+
+            <!-- Connector 1 -->
+            <div class="arch-connector">
+                <div class="arch-connector-line"></div>
+            </div>
+
+            <!-- 通信层 -->
+            <div class="arch-step">
+                <div class="arch-step-icon icon-comm">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="arch-step-num">STEP 02</div>
+                <div class="arch-step-name">通信层</div>
+                <div class="arch-step-items">
+                    <div class="arch-step-item"><span class="item-dot purple"></span>Redis Pub/Sub</div>
+                    <div class="arch-step-item"><span class="item-dot purple"></span>NATS JetStream</div>
+                    <div class="arch-step-item"><span class="item-dot purple"></span>MQTT Broker</div>
+                    <div class="arch-step-item"><span class="item-dot purple"></span>HTTP/WebSocket</div>
                 </div>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-layer">
-                <div class="arch-layer-label">算法层</div>
-                <div class="arch-items">
-                    <div class="arch-item active">PolicyManager</div>
-                    <div class="arch-item">v1 MaxPressure</div>
-                    <div class="arch-item">v2 Offline RL</div>
-                    <div class="arch-item">v3 Online RL</div>
+
+            <!-- Connector 2 -->
+            <div class="arch-connector">
+                <div class="arch-connector-line"></div>
+            </div>
+
+            <!-- 算法层 -->
+            <div class="arch-step">
+                <div class="arch-step-icon icon-algo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                </div>
+                <div class="arch-step-num">STEP 03</div>
+                <div class="arch-step-name">算法层</div>
+                <div class="arch-step-items">
+                    <div class="arch-step-item active"><span class="item-dot green"></span>PolicyManager</div>
+                    <div class="arch-step-item"><span class="item-dot green"></span>v1 Stable RL</div>
+                    <div class="arch-step-item"><span class="item-dot green"></span>v2 Offline RL</div>
+                    <div class="arch-step-item"><span class="item-dot green"></span>v3 Online RL</div>
                 </div>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-layer">
-                <div class="arch-layer-label">执行层</div>
-                <div class="arch-items">
-                    <div class="arch-item">信号机</div>
-                    <div class="arch-item">SafeRules</div>
-                    <div class="arch-item">平台上报</div>
+
+            <!-- Connector 3 -->
+            <div class="arch-connector">
+                <div class="arch-connector-line"></div>
+            </div>
+
+            <!-- 执行层 -->
+            <div class="arch-step">
+                <div class="arch-step-icon icon-act">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
+                <div class="arch-step-num">STEP 04</div>
+                <div class="arch-step-name">执行层</div>
+                <div class="arch-step-items">
+                    <div class="arch-step-item"><span class="item-dot orange"></span>智能信号机</div>
+                    <div class="arch-step-item"><span class="item-dot orange"></span>SafeRules 兜底</div>
+                    <div class="arch-step-item"><span class="item-dot orange"></span>平台状态上报</div>
+                    <div class="arch-step-item"><span class="item-dot orange"></span>告警通知</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="arch-detail-cards">
+            <div class="arch-detail-card">
+                <span class="detail-tag tag-blue">感知</span>
+                <h4>多源数据融合</h4>
+                <p>支持相机、雷达、平台下发等多种感知源输入，自动校准数据质量与时延补偿。</p>
+            </div>
+            <div class="arch-detail-card">
+                <span class="detail-tag tag-purple">通信</span>
+                <h4>零配置切换</h4>
+                <p>Redis / NATS / MQTT 一套接口适配，仿真与生产环境切换无需改代码。</p>
+            </div>
+            <div class="arch-detail-card">
+                <span class="detail-tag tag-green">算法</span>
+                <h4>多算法自适应</h4>
+                <p>PolicyManager 按置信度自动选择 v1/v2/v3 算法，异常时自动降级到规则兜底。</p>
+            </div>
+            <div class="arch-detail-card">
+                <span class="detail-tag tag-orange">安全</span>
+                <h4>多层防护机制</h4>
+                <p>SafeRules 兜底、最小绿灯、最大保持、溢出保护，异常时绝不输出危险指令。</p>
             </div>
         </div>
     </section>
