@@ -599,21 +599,22 @@
             <span class="code-block-title">terminal</span>
             <span class="code-block-lang">bash</span>
           </div>
-          <pre><span class="t-comment"># 克隆仓库</span>
-<span class="t-key">git</span> <span class="t-string">clone</span> https://github.com/OpenTraffic-Team/OpenTraffic-Control
-<span class="t-key">cd</span> OpenTraffic-Control
+<pre><span class="t-comment"># 查看所有示例</span>
+<span class="t-key">git clone</span> <span class="t-string">https://github.com/OpenTraffic-Team/OpenTraffic-Control</span>
+<span class="t-key">cd</span> OpenTraffic-Control/algorithms_sdk/examples
 
-<span class="t-comment"># 安装依赖</span>
-<span class="t-key">pip</span> <span class="t-string">install</span> -r requirements.txt
+<span class="t-comment"># CityFlow 仿真</span>
+<span class="t-tcmd">python</span> quick_demo.py
 
-<span class="t-comment"># 运行快速演示</span>
-<span class="t-key">cd</span> algorithms_sdk/examples
-<span class="t-key">python</span> <span class="t-string">quick_demo.py</span>
+<span class="t-comment"># SUMO 仿真</span>
+<span class="t-tcmd">python</span> simulation_demo.py
 
-<span class="t-comment"># 输出示例</span>
-<span class="t-tcmd">&gt; PolicyManager</span> initialized
-<span class="t-tcmd">&gt; Episode</span> 1 / reward <span class="t-string">+42.3</span> / avg_wait <span class="t-string">18.6s</span>
-<span class="t-tcmd">&gt; SafeRules</span> ACTIVE ✓</pre>
+<span class="t-comment"># 生产环境</span>
+<span class="t-tcmd">python</span> production_demo.py
+
+<span class="t-comment"># 或直接 pip 安装</span>
+<span class="t-key">pip install</span> <span class="t-string">opentraffic-sdk</span>
+<span class="t-key">python</span> -c <span class="t-string">"from algorithms_sdk import AlgorithmSDK; print('OK')"</span></pre>
         </div>
       </div>
     </div>
