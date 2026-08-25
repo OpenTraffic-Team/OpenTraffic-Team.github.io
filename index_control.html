@@ -342,7 +342,7 @@
           </div>
           <div class="terminal-body">
             <div class="t-row"><span class="t-label" data-zh="系统状态" data-en="System Status">系统状态</span><span class="t-val green">RUNNING</span></div>
-            <div class="t-row"><span class="t-label" data-zh="当前算法" data-en="Active Algorithm">当前算法</span><span class="t-val teal" data-zh="v1 最大压力" data-en="v1 Max-Pressure">v1 最大压力</span></div>
+            <div class="t-row"><span class="t-label" data-zh="当前算法" data-en="Active Algorithm">当前算法</span><span class="t-val teal">v1_agent</span></div>
             <div class="t-row"><span class="t-label" data-zh="决策延迟" data-en="Decision Latency">决策延迟</span><span class="t-val blue">&lt; 10 ms</span></div>
             <div class="t-row"><span class="t-label" data-zh="安全检查" data-en="Safety Check">安全检查</span><span class="t-val green">PASSED</span></div>
             <div class="t-row"><span class="t-label" data-zh="仿真内核" data-en="Simulator">仿真内核</span><span class="t-val orange">CityFlow</span></div>
@@ -382,7 +382,7 @@
       <div class="feat-card">
         <span class="feat-tag teal" data-zh="多算法" data-en="Multi-Algorithm">多算法</span>
         <h3 data-zh="多算法支持" data-en="Multi-Algorithm Support">多算法支持</h3>
-        <p data-zh="AlgorithmSDK 内置 v1 最大压力、v2 MLP、v3 模糊控制、v4 注意力四种算法，通过 algo_version 参数选择算法版本。" data-en="AlgorithmSDK ships with four algorithms — v1 Max-Pressure, v2 MLP, v3 Fuzzy, v4 Attention — selectable via the algo_version parameter.">AlgorithmSDK 内置 v1 最大压力、v2 MLP、v3 模糊控制、v4 注意力四种算法，通过 algo_version 参数选择算法版本。</p>
+        <p data-zh="AlgorithmSDK 内置 v1_agent、v2_agent、v3_agent、v4_agent 四种算法版本，通过 algo_version 参数选择算法。" data-en="AlgorithmSDK ships with four algorithm versions — v1_agent, v2_agent, v3_agent, v4_agent — selectable via the algo_version parameter.">AlgorithmSDK 内置 v1_agent、v2_agent、v3_agent、v4_agent 四种算法版本，通过 algo_version 参数选择算法。</p>
       </div>
       <div class="feat-card">
         <span class="feat-tag blue" data-zh="实时决策" data-en="Real-time Decision">实时决策</span>
@@ -392,7 +392,7 @@
       <div class="feat-card">
         <span class="feat-tag green" data-zh="全链路" data-en="Full Pipeline">全链路</span>
         <h3 data-zh="仿真到生产无缝" data-en="Sim-to-Production">仿真到生产无缝</h3>
-        <p data-zh="支持 CityFlow / SUMO 仿真环境，与 Redis / NATS 生产通信层无缝对接，一套代码多场景运行。" data-en="Supports CityFlow / SUMO simulators with seamless integration to Redis / NATS production transport.">支持 CityFlow / SUMO 仿真环境，与 Redis / NATS 生产通信层无缝对接，一套代码多场景运行。</p>
+        <p data-zh="支持 CityFlow / SUMO 仿真环境，与 Redis 生产通信层无缝对接，一套代码多场景运行。" data-en="Supports CityFlow / SUMO simulators with seamless integration to Redis production transport.">支持 CityFlow / SUMO 仿真环境，与 Redis 生产通信层无缝对接，一套代码多场景运行。</p>
       </div>
       <div class="feat-card">
         <span class="feat-tag orange" data-zh="安全机制" data-en="Safety">安全机制</span>
@@ -510,7 +510,6 @@
         <div class="arch-step-items">
           <div class="arch-step-item active"><span class="item-dot purple"></span>Redis Stream</div>
           <div class="arch-step-item"><span class="item-dot purple"></span>Redis</div>
-          <div class="arch-step-item"><span class="item-dot purple"></span>NATS</div>
         </div>
       </div>
       <div class="arch-connector"><div class="arch-connector-line"></div></div>
@@ -522,10 +521,10 @@
         <div class="arch-step-name" data-zh="算法层" data-en="Algorithm Layer">算法层</div>
         <div class="arch-step-items">
           <div class="arch-step-item active"><span class="item-dot green"></span>AlgorithmSDK</div>
-          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v1 最大压力" data-en="v1 Max-Pressure">v1 最大压力</span></div>
-          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v2 MLP" data-en="v2 MLP">v2 MLP</span></div>
-          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v3 模糊控制" data-en="v3 Fuzzy">v3 模糊控制</span></div>
-          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v4 注意力" data-en="v4 Attention">v4 注意力</span></div>
+          <div class="arch-step-item"><span class="item-dot green"></span>v1_agent</div>
+          <div class="arch-step-item"><span class="item-dot green"></span>v2_agent</div>
+          <div class="arch-step-item"><span class="item-dot green"></span>v3_agent</div>
+          <div class="arch-step-item"><span class="item-dot green"></span>v4_agent</div>
         </div>
       </div>
       <div class="arch-connector"><div class="arch-connector-line"></div></div>
@@ -552,7 +551,7 @@
       <div class="arch-detail-card">
         <span class="detail-tag tag-purple" data-zh="通信 / 零配置切换" data-en="Comms / Zero-Config Switch">通信 / 零配置切换</span>
         <h4 data-zh="零配置切换" data-en="Zero-Config Transport">零配置切换</h4>
-        <p data-zh="Redis / NATS 双通道支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。" data-en="Redis / NATS dual-channel support. Same interface for simulation and production. Switch backends without changing algorithm code.">Redis / NATS 双通道支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。</p>
+        <p data-zh="Redis / Redis Stream 支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。" data-en="Redis / Redis Stream support. Same interface for simulation and production. Switch backends without changing algorithm code.">Redis / Redis Stream 支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。</p>
       </div>
       <div class="arch-detail-card">
         <span class="detail-tag tag-green" data-zh="算法 / 多版本" data-en="Algorithm / Multi-Version">算法 / 多版本</span>
@@ -601,7 +600,7 @@
             </div>
             <div>
               <strong>production_demo.py</strong>
-              <small data-zh="生产环境示例，对接 Redis/NATS 中间件" data-en="Production example with Redis/NATS integration">生产环境示例，对接 Redis/NATS 中间件</small>
+              <small data-zh="生产环境示例，对接 Redis 中间件" data-en="Production example with Redis integration">生产环境示例，对接 Redis 中间件</small>
             </div>
           </a>
         </div>
