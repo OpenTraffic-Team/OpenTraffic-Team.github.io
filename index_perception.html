@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OpenTraffic | 智能交通信号感知系统</title>
+  <style>
+    :root {
+      --bg: #0a0f0d;
+      --bg2: #0e1512;
+      --bg3: #111a16;
+      --card: #131a17;
+      --card2: #182019;
+      --border: rgba(255,255,255,0.07);
+      --teal: #12bfa3;
+      --teal2: #0de8c2;
+      --green: #2ecc71;
+      --ink: #e8f5f0;
+      --muted: #7a9990;
+      --subtle: #4a6860;
+      --font-display: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-body: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --font-mono: "JetBrains Mono", "SFMono-Regular", ui-monospace, monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 60px;
+      background: rgba(10,15,13,0.88);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      height: 100%; padding: 0 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 17px; letter-spacing: -0.02em;
+    }
+    .brand-logo {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: linear-gradient(135deg, #0d2e22, #1a5c44);
+      border: 1px solid rgba(18,191,163,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 900; color: var(--teal);
+      font-family: var(--font-mono); letter-spacing: 0;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 14px; color: var(--muted);
+    }
+    .nav-links a {
+      padding: 7px 14px; border-radius: 6px;
+      transition: color 150ms, background 150ms;
+    }
+    .nav-links a:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
+    .nav-links a.active { color: var(--ink); }
+    .nav-cta {
+      background: var(--teal); color: #061510 !important;
+      padding: 7px 16px; border-radius: 6px; font-weight: 700;
+      transition: opacity 150ms;
+    }
+    .nav-cta:hover { opacity: 0.88; background: var(--teal) !important; }
+    .lang-switch {
+      display: flex; align-items: center; gap: 2px;
+      margin-left: 8px; padding-left: 14px;
+      border-left: 1px solid var(--border);
+    }
+    .lang-btn {
+      padding: 5px 8px; border-radius: 5px; cursor: pointer;
+      color: var(--muted); background: none; border: none;
+      font-size: 13px; font-weight: 700; font-family: var(--font-body);
+      transition: color 140ms;
+    }
+    .lang-btn:hover { color: var(--ink); }
+    .lang-btn.lang-active { color: var(--teal); }
+    .lang-sep { color: var(--subtle); font-size: 13px; user-select: none; }
+
+    /* ── SHELL ── */
+    .shell { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 0 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(18,191,163,0.10), transparent),
+        radial-gradient(ellipse 40% 40% at 10% 60%, rgba(18,191,163,0.06), transparent);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+      position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: ""; width: 24px; height: 1px; background: var(--teal);
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 5vw, 72px);
+      line-height: 1.05; letter-spacing: -0.04em;
+      font-weight: 900;
+    }
+    .teal { color: var(--teal); }
+    .hero-desc {
+      margin-top: 20px;
+      color: var(--muted); font-size: 15px; line-height: 1.9;
+      max-width: 500px;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px;
+    }
+    .hero-tag {
+      padding: 5px 12px; border-radius: 4px;
+      border: 1px solid var(--border);
+      font-size: 12px; color: var(--muted);
+      background: rgba(255,255,255,0.03);
+    }
+    .hero-actions {
+      display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 6px;
+      font-size: 14px; font-weight: 700;
+      transition: transform 150ms, opacity 150ms;
+      cursor: pointer; border: none;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: var(--teal); color: #061510;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+    /* hero right: terminal card */
+    .terminal-card {
+      background: #0d1a15;
+      border: 1px solid rgba(18,191,163,0.18);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(18,191,163,0.08);
+    }
+    .terminal-bar {
+      padding: 12px 16px;
+      background: #0b1410;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .terminal-title {
+      margin-left: 8px; font-family: var(--font-mono);
+      font-size: 12px; color: var(--subtle);
+    }
+    .terminal-body { padding: 20px; }
+    .t-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; border-radius: 8px;
+      margin-bottom: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .t-label { font-size: 13px; color: var(--muted); }
+    .t-val {
+      font-size: 12px; font-family: var(--font-mono);
+      padding: 3px 8px; border-radius: 4px;
+    }
+    .t-val.green { background: rgba(46,204,113,0.12); color: #2ecc71; }
+    .t-val.teal { background: rgba(18,191,163,0.12); color: var(--teal2); }
+    .t-val.blue { background: rgba(22,119,255,0.12); color: #5ba4ff; }
+    .t-val.orange { background: rgba(255,159,45,0.12); color: #ffb84d; }
+    .terminal-cmd {
+      margin-top: 14px; padding: 14px;
+      background: #071210; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .terminal-cmd p {
+      font-family: var(--font-mono); font-size: 12px;
+      color: #7fcfb8; line-height: 1.8; margin: 0;
+    }
+    .terminal-cmd .prompt { color: var(--subtle); }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 90px 0; }
+    .section-kicker {
+      font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-kicker::before, .section-kicker::after {
+      content: "——";  color: var(--subtle);
+    }
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 3.5vw, 48px);
+      line-height: 1.1; letter-spacing: -0.04em; font-weight: 900;
+    }
+    .section-desc {
+      margin-top: 14px; color: var(--muted);
+      font-size: 15px; line-height: 1.85; max-width: 680px;
+    }
+    .section-head-center { text-align: center; margin-bottom: 52px; }
+    .section-head-center .section-desc { margin: 14px auto 0; }
+
+    /* ── FEATURES GRID ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-top: 52px;
+    }
+    .feat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 26px 28px;
+      transition: border-color 250ms, background 250ms;
+    }
+    .feat-card:hover {
+      border-color: rgba(18,191,163,0.25);
+      background: var(--card2);
+    }
+    .feat-tag {
+      display: inline-block;
+      padding: 3px 9px; border-radius: 4px;
+      font-size: 11px; font-weight: 700;
+      font-family: var(--font-mono); letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+    .feat-tag.teal { background: rgba(18,191,163,0.15); color: var(--teal2); }
+    .feat-tag.blue { background: rgba(22,119,255,0.15); color: #5ba4ff; }
+    .feat-tag.orange { background: rgba(255,159,45,0.15); color: #ffb84d; }
+    .feat-tag.purple { background: rgba(155,89,182,0.15); color: #c39bdf; }
+    .feat-card h3 {
+      font-size: 18px; font-weight: 800; letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+    .feat-card p { color: var(--muted); font-size: 14px; line-height: 1.75; }
+
+    /* ── TEAM MODE (2-col) ── */
+    .split-section {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .split-section.reverse .split-visual { order: -1; }
+    .steps-col { display: grid; gap: 12px; }
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px 22px;
+      display: grid; grid-template-columns: auto 1fr; gap: 16px;
+      align-items: start;
+    }
+    .step-num {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 900;
+      color: var(--teal); letter-spacing: 0.08em;
+      padding-top: 2px;
+    }
+    .step-card h4 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .step-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+    /* ── FILE LIST (workspace visual) ── */
+    .file-list {
+      background: #0b1410;
+      border: 1px solid rgba(18,191,163,0.14);
+      border-radius: 12px; overflow: hidden;
+    }
+    .file-list-header {
+      padding: 12px 18px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-family: var(--font-mono); font-size: 12px; color: var(--subtle);
+    }
+    .file-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 150ms;
+    }
+    .file-item:last-child { border-bottom: none; }
+    .file-item:hover { background: rgba(18,191,163,0.04); }
+    .file-name { font-family: var(--font-mono); font-size: 13px; color: var(--ink); }
+    .file-badge {
+      font-size: 11px; font-weight: 700; font-family: var(--font-mono);
+      padding: 3px 8px; border-radius: 4px;
+    }
+    .file-badge.g { background: rgba(46,204,113,0.12); color: #2ecc71; }
+    .file-badge.t { background: rgba(18,191,163,0.12); color: var(--teal2); }
+    .file-badge.b { background: rgba(22,119,255,0.12); color: #5ba4ff; }
+    .file-badge.o { background: rgba(255,159,45,0.12); color: #ffb84d; }
+
+    /* ── PERCEPTION GRID ── */
+    .perception-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin-top: 52px;
+    }
+    .task-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color 250ms, transform 250ms;
+    }
+    .task-card:hover {
+      border-color: rgba(18,191,163,0.25);
+      transform: translateY(-3px);
+    }
+    .task-media {
+      aspect-ratio: 16 / 10;
+      background: #061510; position: relative; overflow: hidden;
+    }
+    .task-media video {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 400ms ease;
+    }
+    .task-card:hover .task-media video { transform: scale(1.05); }
+    .task-media-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(10,15,13,0.82); backdrop-filter: blur(8px);
+      border: 1px solid rgba(18,191,163,0.2);
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--teal); padding: 4px 8px; border-radius: 4px;
+    }
+    .task-body { padding: 16px 18px 20px; flex: 1; display: grid; gap: 8px; }
+    .task-body h3 { font-size: 16px; font-weight: 800; letter-spacing: -0.03em; }
+    .task-code { font-family: var(--font-mono); font-size: 11px; color: var(--teal); }
+    .task-body p { color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .task-links { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .mini-link {
+      padding: 5px 10px; border-radius: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 11px; font-weight: 700;
+      font-family: var(--font-mono);
+      transition: color 150ms, border-color 150ms;
+    }
+    .mini-link:hover { color: var(--teal); border-color: rgba(18,191,163,0.3); }
+
+    /* ── CHANNELS GRID ── */
+    .channels-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin-top: 52px;
+    }
+    .channel-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px 22px;
+      display: flex; align-items: center; gap: 14px;
+      transition: border-color 200ms, background 200ms;
+      cursor: default;
+    }
+    .channel-card:hover {
+      border-color: rgba(18,191,163,0.22);
+      background: var(--card2);
+    }
+    .channel-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: rgba(18,191,163,0.10);
+      border: 1px solid rgba(18,191,163,0.15);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 18px;
+    }
+    .channel-card h4 { font-size: 15px; font-weight: 800; }
+    .channel-card p { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, #0d2018, #0e1a14);
+      border: 1px solid rgba(18,191,163,0.12);
+      border-radius: 20px; padding: 60px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; overflow: hidden; position: relative;
+    }
+    .cta-section::before {
+      content: "";
+      position: absolute; right: -100px; top: -100px;
+      width: 380px; height: 380px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(18,191,163,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-kicker {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cta-kicker::before { content: ""; width: 20px; height: 1px; background: var(--teal); }
+    .cta-section h2 { font-size: clamp(28px, 3vw, 42px); }
+    .cta-desc { color: var(--muted); font-size: 14px; line-height: 1.8; margin-top: 10px; max-width: 480px; }
+    .cta-actions { display: flex; gap: 12px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 32px 28px;
+      border-top: 1px solid var(--border);
+      color: var(--subtle);
+      font-size: 13px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; color: var(--muted); font-weight: 700; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { transition: color 150ms; }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .hero-grid, .split-section, .cta-section { grid-template-columns: 1fr; flex-direction: column; }
+      .split-section.reverse .split-visual { order: 0; }
+      .features-grid, .channels-grid { grid-template-columns: repeat(2, 1fr); }
+      .perception-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-section { flex-direction: column; }
+      .cta-actions { width: 100%; }
+    }
+    @media (max-width: 600px) {
+      .shell { padding: 0 18px; }
+      .features-grid, .channels-grid, .perception-grid { grid-template-columns: 1fr; }
+      .nav-links .nav-text { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="top">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <div class="brand-logo">OT</div>
+      OpenTraffic
+    </a>
+    <div class="nav-links">
+      <a href="home.html" class="nav-text" data-zh="← 返回首页" data-en="← Home">← 返回首页</a>
+      <a href="#features" class="nav-text" data-zh="功能" data-en="Features">功能</a>
+      <a href="#perception" class="nav-text" data-zh="感知能力" data-en="Perception">感知能力</a>
+      <a href="#flow" class="nav-text" data-zh="融合流程" data-en="Fusion Flow">融合流程</a>
+      <a href="#cta" class="nav-text" data-zh="开始使用" data-en="Get Started">开始使用</a>
+      <div class="lang-switch">
+        <button class="lang-btn lang-active" data-lang="en" onclick="setLang('en')">English</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top-hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow" data-zh="AI 交通感知融合平台" data-en="AI Traffic Perception Fusion Platform">AI 交通感知融合平台</div>
+        <h1 data-zh="智能交通信号<br><span class='teal'>感知系统</span>" data-en="Intelligent Traffic<br><span class='teal'>Perception System</span>">智能交通信号<br><span class="teal">感知系统</span></h1>
+        <p class="hero-desc" data-zh="面向对外展示、项目汇报和系统对接，页面集中呈现 4 个 TSC 视频感知结果，并通过 OpenTraffic Team GitHub 组织承接后续仓库与接口材料。" data-en="Built for external showcases, project presentations, and system integration — presenting 4 TSC video perception results and linking all repositories through the OpenTraffic Team GitHub organization.">面向对外展示、项目汇报和系统对接，页面集中呈现 4 个 TSC 视频感知结果，并通过 OpenTraffic Team GitHub 组织承接后续仓库与接口材料。</p>
+        <div class="hero-tags">
+          <span class="hero-tag" data-zh="控制组融合" data-en="Control Integration">控制组融合</span>
+          <span class="hero-tag" data-zh="感知结果展示" data-en="Perception Showcase">感知结果展示</span>
+          <span class="hero-tag" data-zh="共同接口" data-en="Shared Interface">共同接口</span>
+          <span class="hero-tag" data-zh="真实场景" data-en="Real-world Scene">真实场景</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/OpenTraffic-Team/opentraffic-perception-engine" target="_blank" rel="noreferrer" data-zh="GitHub 仓库" data-en="GitHub Repository">GitHub 仓库</a>
+        </div>
+      </div>
+      <div>
+        <div class="terminal-card">
+          <div class="terminal-bar">
+            <span class="dot dot-r"></span>
+            <span class="dot dot-y"></span>
+            <span class="dot dot-g"></span>
+            <span class="terminal-title">opentraffic — workspace</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-row">
+              <span class="t-label" data-zh="统一入口" data-en="Unified Entry">统一入口</span>
+              <span class="t-val teal" data-zh="感知系统已就绪" data-en="Perception Ready">感知系统已就绪</span>
+            </div>
+            <div class="t-row">
+              <span class="t-label" data-zh="车辆检测" data-en="Vehicle Detection">车辆检测</span>
+              <span class="t-val green" data-zh="已完成" data-en="Done">已完成</span>
+            </div>
+            <div class="t-row">
+              <span class="t-label" data-zh="多目标跟踪" data-en="Multi-Object Tracking">多目标跟踪</span>
+              <span class="t-val green" data-zh="已完成" data-en="Done">已完成</span>
+            </div>
+            <div class="t-row">
+              <span class="t-label" data-zh="世界坐标 · 速度" data-en="World Coord · Speed">世界坐标 · 速度</span>
+              <span class="t-val blue" data-zh="可预览" data-en="Preview">可预览</span>
+            </div>
+            <div class="t-row">
+              <span class="t-label" data-zh="共同接口" data-en="Shared Interface">共同接口</span>
+              <span class="t-val orange">24/7</span>
+            </div>
+            <div class="terminal-cmd">
+              <p><span class="prompt">$</span> python3 -m http.server 8000</p>
+              <p><span class="prompt">#</span> http://127.0.0.1:8000/</p>
+              <p><span class="prompt">&gt;</span> 4 TSC tasks loaded · fusion ready</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="shell">
+    <div class="section-head-center">
+      <div class="section-kicker" data-zh="核心能力" data-en="Core Capabilities">核心能力</div>
+      <h2 data-zh="让感知真正接入控制" data-en="Bridging Perception into Control">让感知真正接入控制</h2>
+      <p class="section-desc" data-zh="OpenTraffic 融合页将交通控制组与视频感知组的成果统一呈现，面向汇报、展示和系统对接三种场景各司其职。" data-en="OpenTraffic Fusion consolidates the outputs of the traffic control team and video perception team into one unified view, serving three scenarios: presentations, showcases, and system integration.">OpenTraffic 融合页将交通控制组与视频感知组的成果统一呈现，面向汇报、展示和系统对接三种场景各司其职。</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-tag teal" data-zh="检测" data-en="Detection">检测</div>
+        <h3 data-zh="车辆目标检测" data-en="Vehicle Detection">车辆目标检测</h3>
+        <p data-zh="识别道路画面中的车辆目标，为后续跟踪、坐标映射和速度估计提供基础输入。支持多类别目标输出。" data-en="Identifies vehicles in road footage, providing foundational input for downstream tracking, coordinate mapping, and speed estimation. Supports multi-class output.">识别道路画面中的车辆目标，为后续跟踪、坐标映射和速度估计提供基础输入。支持多类别目标输出。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-tag blue" data-zh="跟踪" data-en="Tracking">跟踪</div>
+        <h3 data-zh="多目标连续跟踪" data-en="Multi-Object Tracking">多目标连续跟踪</h3>
+        <p data-zh="保持目标 ID 的跨帧连续性，支撑轨迹分析、交通参与者行为理解和时序统计。" data-en="Maintains cross-frame target ID continuity to support trajectory analysis, traffic behavior understanding, and temporal statistics.">保持目标 ID 的跨帧连续性，支撑轨迹分析、交通参与者行为理解和时序统计。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-tag orange" data-zh="定位" data-en="Localization">定位</div>
+        <h3 data-zh="世界坐标映射" data-en="World Coordinate Mapping">世界坐标映射</h3>
+        <p data-zh="将图像中的车辆位置转换为真实场景坐标，让感知结果具备空间解释能力，对接地图与控制系统。" data-en="Maps vehicle positions from image space to real-world coordinates, enabling spatial interpretation and integration with maps and control systems.">将图像中的车辆位置转换为真实场景坐标，让感知结果具备空间解释能力，对接地图与控制系统。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-tag purple" data-zh="速度" data-en="Speed">速度</div>
+        <h3 data-zh="世界速度估计" data-en="World Speed Estimation">世界速度估计</h3>
+        <p data-zh="结合轨迹、时间序列和世界坐标估计真实车辆速度，支撑交通运行状态分析与信号优化。" data-en="Estimates real vehicle speed from trajectories, timestamps, and world coordinates to support traffic state analysis and signal optimization.">结合轨迹、时间序列和世界坐标估计真实车辆速度，支撑交通运行状态分析与信号优化。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-tag teal" data-zh="入口" data-en="Entry">入口</div>
+        <h3 data-zh="统一对外展示入口" data-en="Unified External Entry">统一对外展示入口</h3>
+        <p data-zh="官网负责给用户看，融合页承载感知结果，共同接口统一后续仓库对接。三者角色清晰，汇报时无需解释本地路径。" data-en="The official site faces users, the fusion page hosts perception results, and the shared interface handles repos — clear roles, no local path explanations needed in presentations.">官网负责给用户看，融合页承载感知结果，共同接口统一后续仓库对接。三者角色清晰，汇报时无需解释本地路径。</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-tag blue" data-zh="接口" data-en="Interface">接口</div>
+        <h3 data-zh="共同接口与仓库组织" data-en="Shared Interface &amp; Repos">共同接口与仓库组织</h3>
+        <p data-zh="统一指向 OpenTraffic Team GitHub 组织，承载后续仓库、接口文档和对接材料，支持长期维护与扩展。" data-en="Points to the OpenTraffic Team GitHub organization, hosting all repositories, interface docs, and integration materials for long-term maintenance.">统一指向 OpenTraffic Team GitHub 组织，承载后续仓库、接口文档和对接材料，支持长期维护与扩展。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUSION FLOW -->
+<section id="flow" style="background: var(--bg2);">
+  <div class="shell">
+    <div class="split-section">
+      <div>
+        <div class="section-kicker" data-zh="融合流程" data-en="Fusion Flow">融合流程</div>
+        <h2 data-zh="从单一仓库升级为<br>统一展示体系" data-en="From isolated repos to<br>a unified showcase">从单一仓库升级为<br>统一展示体系</h2>
+        <p class="section-desc" data-zh="感知组提供真实视频结果，共同接口承接后续仓库和系统对接材料，三步形成清晰的对外呈现链路。" data-en="The perception team delivers real video results; the shared interface carries all downstream repos — three steps, one clear external presentation chain.">感知组提供真实视频结果，共同接口承接后续仓库和系统对接材料，三步形成清晰的对外呈现链路。</p>
+      </div>
+      <div class="steps-col">
+        <div class="step-card">
+          <span class="step-num">STEP 01</span>
+          <div>
+            <h4 data-zh="统一 GitHub 入口" data-en="Unified GitHub Entry">统一 GitHub 入口</h4>
+            <p data-zh="对外优先使用 github.com/OpenTraffic-Team，让用户从正式项目页面进入，避免散落的本地路径。" data-en="Use github.com/OpenTraffic-Team as the primary external entry, directing users to the formal project page.">对外优先使用 github.com/OpenTraffic-Team，让用户从正式项目页面进入，避免散落的本地路径。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">STEP 02</span>
+          <div>
+            <h4 data-zh="展示感知结果" data-en="Showcase Perception Results">展示感知结果</h4>
+            <p data-zh="进入 4 个 TSC 视频任务，展示车辆检测、跟踪、坐标和速度结果，以真实视频为依据。" data-en="Navigate to 4 TSC video tasks demonstrating detection, tracking, coordinates, and speed — all backed by real footage.">进入 4 个 TSC 视频任务，展示车辆检测、跟踪、坐标和速度结果，以真实视频为依据。</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <span class="step-num">STEP 03</span>
+          <div>
+            <h4 data-zh="汇总交付" data-en="Consolidated Delivery">汇总交付</h4>
+            <p data-zh="共同接口指向 github.com/OpenTraffic-Team/，统一承载仓库和接口材料，后续可迁移进官网仓库形成正式公网展示。" data-en="The shared interface points to github.com/OpenTraffic-Team/, hosting all repos and materials for eventual public deployment.">共同接口指向 github.com/OpenTraffic-Team/，统一承载仓库和接口材料，后续可迁移进官网仓库形成正式公网展示。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERCEPTION -->
+<section id="perception">
+  <div class="shell">
+    <div class="section-head-center">
+      <div class="section-kicker" data-zh="感知能力" data-en="Perception Capabilities">感知能力</div>
+      <h2 data-zh="4 个核心视频感知结果" data-en="4 Core Video Perception Results">4 个核心视频感知结果</h2>
+      <p class="section-desc" data-zh="感知组展示范围聚焦 4 个 TSC 视频任务，围绕目标发现、连续跟踪、空间定位和速度估计构成清晰的主线能力。" data-en="The perception showcase focuses on 4 TSC video tasks forming a clear capability thread around detection, tracking, spatial localization, and speed estimation.">感知组展示范围聚焦 4 个 TSC 视频任务，围绕目标发现、连续跟踪、空间定位和速度估计构成清晰的主线能力。</p>
+    </div>
+    <div class="perception-grid">
+      <article class="task-card">
+        <div class="task-media">
+          <video src="./assets/perception/tsc_vehicle_detection/result_video_clean.mp4" autoplay muted loop playsinline></video>
+          <span class="task-media-badge">Video</span>
+        </div>
+        <div class="task-body">
+          <h3 data-zh="车辆检测" data-en="Vehicle Detection">车辆检测</h3>
+          <div class="task-code">tsc_vehicle_detection</div>
+          <p data-zh="识别道路画面中的车辆目标，为后续跟踪、坐标映射和速度估计提供基础输入。" data-en="Detects vehicles in road footage, providing foundational input for downstream tracking, coordinate mapping, and speed estimation.">识别道路画面中的车辆目标，为后续跟踪、坐标映射和速度估计提供基础输入。</p>
+          <div class="task-links">
+            <a class="mini-link" href="./assets/perception/tsc_vehicle_detection/result_video_clean.mp4" data-zh="视频结果" data-en="Video">视频结果</a>
+            <a class="mini-link" href="./assets/perception/tsc_vehicle_detection/result.json">JSON</a>
+          </div>
+        </div>
+      </article>
+      <article class="task-card">
+        <div class="task-media">
+          <video src="./assets/perception/tsc_multi_object_tracking/result_video_clean.mp4" autoplay muted loop playsinline></video>
+          <span class="task-media-badge">Video</span>
+        </div>
+        <div class="task-body">
+          <h3 data-zh="多目标跟踪" data-en="Multi-Object Tracking">多目标跟踪</h3>
+          <div class="task-code">tsc_multi_object_tracking</div>
+          <p data-zh="保持目标 ID 的连续性，支撑轨迹分析、交通参与者行为理解和时序统计。" data-en="Maintains continuous target IDs to support trajectory analysis, behavior understanding, and temporal statistics.">保持目标 ID 的连续性，支撑轨迹分析、交通参与者行为理解和时序统计。</p>
+          <div class="task-links">
+            <a class="mini-link" href="./assets/perception/tsc_multi_object_tracking/result_video_clean.mp4" data-zh="视频结果" data-en="Video">视频结果</a>
+            <a class="mini-link" href="./assets/perception/tsc_multi_object_tracking/result.json">JSON</a>
+          </div>
+        </div>
+      </article>
+      <article class="task-card">
+        <div class="task-media">
+          <video src="./assets/perception/tsc_world_coordinate/result_video_clean.mp4" autoplay muted loop playsinline></video>
+          <span class="task-media-badge">Video</span>
+        </div>
+        <div class="task-body">
+          <h3 data-zh="世界坐标" data-en="World Coordinates">世界坐标</h3>
+          <div class="task-code">tsc_world_coordinate</div>
+          <p data-zh="将图像中的车辆位置转换为真实场景坐标，让感知结果具备空间解释能力。" data-en="Maps vehicle positions from image space to real-world scene coordinates, enabling spatial interpretation.">将图像中的车辆位置转换为真实场景坐标，让感知结果具备空间解释能力。</p>
+          <div class="task-links">
+            <a class="mini-link" href="./assets/perception/tsc_world_coordinate/result_video_clean.mp4" data-zh="视频结果" data-en="Video">视频结果</a>
+            <a class="mini-link" href="./assets/perception/tsc_world_coordinate/result.json">JSON</a>
+          </div>
+        </div>
+      </article>
+      <article class="task-card">
+        <div class="task-media">
+          <video src="./assets/perception/tsc_world_speed/result_video_clean.mp4" autoplay muted loop playsinline></video>
+          <span class="task-media-badge">Video</span>
+        </div>
+        <div class="task-body">
+          <h3 data-zh="世界速度" data-en="World Speed">世界速度</h3>
+          <div class="task-code">tsc_world_speed</div>
+          <p data-zh="结合轨迹、时间序列和世界坐标估计车辆速度，支撑交通运行状态分析。" data-en="Estimates vehicle speed from trajectory, timestamps, and world coordinates to support traffic state analysis.">结合轨迹、时间序列和世界坐标估计车辆速度，支撑交通运行状态分析。</p>
+          <div class="task-links">
+            <a class="mini-link" href="./assets/perception/tsc_world_speed/result_video_clean.mp4" data-zh="视频结果" data-en="Video">视频结果</a>
+            <a class="mini-link" href="./assets/perception/tsc_world_speed/result.json">JSON</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- WORKSPACE -->
+<section style="background: var(--bg2);">
+  <div class="shell">
+    <div class="split-section reverse">
+      <div>
+        <div class="section-kicker" data-zh="工作区与接口" data-en="Workspace &amp; Interface">工作区与接口</div>
+        <h2 data-zh="所有结果围绕<br>本地工作区展开" data-en="All results centered on<br>your local workspace">所有结果围绕<br>本地工作区展开</h2>
+        <p class="section-desc" data-zh="支持本地 http.server 快速预览，生成和处理 MP4、JSON 等多种感知交付物。内置工作区面板支持多种文件格式实时查看，AI 生成的结果可以立即检查、修改和复用。" data-en="Supports quick local http.server preview, generating and handling MP4, JSON, and other deliverables. Built-in workspace panel with real-time viewing — results can be immediately reviewed, modified, and reused.">支持本地 http.server 快速预览，生成和处理 MP4、JSON 等多种感知交付物。内置工作区面板支持多种文件格式实时查看，AI 生成的结果可以立即检查、修改和复用。</p>
+      </div>
+      <div class="split-visual">
+        <div class="file-list">
+          <div class="file-list-header">workspace / perception</div>
+          <div class="file-item">
+            <span class="file-name">tsc_vehicle_detection/result_video_clean.mp4</span>
+            <span class="file-badge g" data-zh="已生成" data-en="Generated">已生成</span>
+          </div>
+          <div class="file-item">
+            <span class="file-name">tsc_multi_object_tracking/result_video_clean.mp4</span>
+            <span class="file-badge g" data-zh="已生成" data-en="Generated">已生成</span>
+          </div>
+          <div class="file-item">
+            <span class="file-name">tsc_world_coordinate/result_video_clean.mp4</span>
+            <span class="file-badge t" data-zh="可预览" data-en="Preview">可预览</span>
+          </div>
+          <div class="file-item">
+            <span class="file-name">tsc_world_speed/result_video_clean.mp4</span>
+            <span class="file-badge t" data-zh="可预览" data-en="Preview">可预览</span>
+          </div>
+          <div class="file-item">
+            <span class="file-name">*/result.json</span>
+            <span class="file-badge b" data-zh="结构化" data-en="Structured">结构化</span>
+          </div>
+          <div class="file-item">
+            <span class="file-name">opentraffic_fusion.html</span>
+            <span class="file-badge o">24/7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHANNELS -->
+<section>
+  <div class="shell">
+    <div class="section-head-center">
+      <div class="section-kicker" data-zh="多渠道入口" data-en="Channels &amp; Entry Points">多渠道入口</div>
+      <h2 data-zh="多入口，统一对外呈现" data-en="Multiple entries, one unified face">多入口，统一对外呈现</h2>
+      <p class="section-desc" data-zh="通过 GitHub 和融合页两个渠道统一对外，用户可以从任意入口了解项目、查看结果、获取接口材料。" data-en="Through GitHub and the fusion page, users can access the project, view results, and obtain interface materials from any entry point.">通过 GitHub 和融合页两个渠道统一对外，用户可以从任意入口了解项目、查看结果、获取接口材料。</p>
+    </div>
+    <div class="channels-grid">
+      <div class="channel-card">
+        <div class="channel-icon">🌐</div>
+        <div>
+          <h4 data-zh="OpenTraffic GitHub" data-en="OpenTraffic GitHub">OpenTraffic GitHub</h4>
+          <p data-zh="项目主页，适合汇报和开发者查阅" data-en="Project home, ideal for presentations and developer reference">项目主页，适合汇报和开发者查阅</p>
+        </div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-icon">⚙️</div>
+        <div>
+          <h4 data-zh="共同接口 GitHub" data-en="Shared Interface GitHub">共同接口 GitHub</h4>
+          <p data-zh="OpenTraffic-Team 组织，承载所有仓库与接口文档" data-en="OpenTraffic-Team org hosting all repos and interface docs">OpenTraffic-Team 组织，承载所有仓库与接口文档</p>
+        </div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-icon">🎬</div>
+        <div>
+          <h4 data-zh="感知结果融合页" data-en="Perception Fusion Page">感知结果融合页</h4>
+          <p data-zh="本页面，集中展示 4 个 TSC 视频任务感知结果" data-en="This page — showcasing all 4 TSC video task results">本页面，集中展示 4 个 TSC 视频任务感知结果</p>
+        </div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-icon">📦</div>
+        <div>
+          <h4 data-zh="JSON 结构化输出" data-en="JSON Structured Output">JSON 结构化输出</h4>
+          <p data-zh="每个感知任务均提供 result.json 供下游系统对接" data-en="Every perception task provides result.json for downstream integration">每个感知任务均提供 result.json 供下游系统对接</p>
+        </div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-icon">🖥️</div>
+        <div>
+          <h4 data-zh="本地演示服务" data-en="Local Demo Server">本地演示服务</h4>
+          <p data-zh="python3 -m http.server 本地快速预览，无需额外依赖" data-en="python3 -m http.server for instant local preview, no extra deps">python3 -m http.server 本地快速预览，无需额外依赖</p>
+        </div>
+      </div>
+      <div class="channel-card">
+        <div class="channel-icon">🔗</div>
+        <div>
+          <h4 data-zh="感知 API 接口" data-en="Perception API">感知 API 接口</h4>
+          <p data-zh="unified-perception-api 可选接入，FastAPI 提供任务查询" data-en="Optional unified-perception-api with FastAPI task querying">unified-perception-api 可选接入，FastAPI 提供任务查询</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" style="padding-bottom: 90px;">
+  <div class="shell">
+    <div class="cta-section">
+      <div>
+        <div class="cta-kicker" data-zh="开始使用" data-en="Get Started">开始使用</div>
+        <h2 data-zh="查看感知引擎仓库" data-en="View Perception Engine Repo">查看感知引擎仓库</h2>
+        <p class="cta-desc" data-zh="直接进入 GitHub 仓库获取代码、接口文档和对接材料，或浏览本页感知结果了解系统能力。" data-en="Go directly to the GitHub repository for source code, interface docs, and integration materials, or browse the perception results on this page.">直接进入 GitHub 仓库获取代码、接口文档和对接材料，或浏览本页感知结果了解系统能力。</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://github.com/OpenTraffic-Team/opentraffic-perception-engine" target="_blank" rel="noreferrer" data-zh="GitHub 仓库" data-en="GitHub Repository">GitHub 仓库</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-logo">OT</div>
+      OpenTraffic
+      <span style="color:var(--subtle);font-weight:400;" data-zh="· 感知系统" data-en="· Perception System">· 感知系统</span>
+    </div>
+    <div class="footer-links">
+      <a href="home.html" data-zh="首页" data-en="Home">首页</a>
+      <a href="index_perception.html" data-zh="感知系统" data-en="Perception">感知系统</a>
+      <a href="index_control.html" data-zh="控制系统" data-en="Control">控制系统</a>
+      <a href="index_ops.html" data-zh="运维平台" data-en="OPS">运维平台</a>
+      <a href="https://github.com/OpenTraffic-Team/" target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const PAGE_TITLES = {
+    zh: 'OpenTraffic | 智能交通信号感知系统',
+    en: 'OpenTraffic | Intelligent Traffic Perception System'
+  };
+  function setLang(lang) {
+    document.title = PAGE_TITLES[lang];
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+    document.querySelectorAll('[data-zh]').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('lang-active', btn.dataset.lang === lang);
+    });
+    localStorage.setItem('ot-lang', lang);
+  }
+  setLang(localStorage.getItem('ot-lang') || 'en');
+</script>
+</body>
+</html>
+

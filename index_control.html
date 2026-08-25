@@ -51,8 +51,6 @@
     .nav-links { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
     .nav-links a { padding: 7px 14px; border-radius: 6px; transition: color 150ms, background 150ms; }
     .nav-links a:hover { color: var(--ink); background: rgba(255,255,255,0.05); }
-    .nav-cta { background: var(--teal); color: #061510 !important; padding: 7px 16px; border-radius: 6px; font-weight: 700; transition: opacity 150ms; }
-    .nav-cta:hover { opacity: 0.88; background: var(--teal) !important; }
     .lang-switch { display: flex; align-items: center; gap: 2px; margin-left: 8px; padding-left: 14px; border-left: 1px solid var(--border); }
     .lang-btn { padding: 5px 8px; border-radius: 5px; cursor: pointer; color: var(--muted); background: none; border: none; font-size: 13px; font-weight: 700; font-family: var(--font-body); transition: color 140ms; }
     .lang-btn:hover { color: var(--ink); }
@@ -237,16 +235,30 @@
     .example-link small { display: block; font-size: 12px; color: var(--muted); }
 
     /* CTA */
-    .cta-wrap {
-      background: linear-gradient(135deg, #0e1512, #0d1e18);
-      border: 1px solid var(--border); border-radius: 20px;
-      padding: 64px; text-align: center; position: relative; overflow: hidden;
+    .cta-section {
+      background: linear-gradient(135deg, #0d2018, #0e1a14);
+      border: 1px solid rgba(18,191,163,0.12);
+      border-radius: 20px; padding: 60px 52px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; overflow: hidden; position: relative;
     }
-    .cta-wrap::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(18,191,163,0.1), transparent); pointer-events: none; }
-    .cta-wrap > * { position: relative; z-index: 1; }
-    .cta-wrap h2 { margin-bottom: 12px; }
-    .cta-wrap p { color: var(--muted); font-size: 15px; line-height: 1.85; max-width: 480px; margin: 0 auto 32px; }
-    .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-section::before {
+      content: "";
+      position: absolute; right: -100px; top: -100px;
+      width: 380px; height: 380px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(18,191,163,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-kicker {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .cta-kicker::before { content: ""; width: 20px; height: 1px; background: var(--teal); }
+    .cta-section h2 { font-size: clamp(28px, 3vw, 42px); }
+    .cta-desc { color: var(--muted); font-size: 14px; line-height: 1.8; margin-top: 10px; max-width: 480px; }
+    .cta-actions { display: flex; gap: 12px; flex-shrink: 0; }
 
     /* FOOTER */
     .footer { padding: 32px 28px; border-top: 1px solid var(--border); color: var(--subtle); font-size: 13px; }
@@ -272,31 +284,33 @@
       .code-split { grid-template-columns: 1fr; gap: 40px; }
     }
     @media (max-width: 600px) {
+      .nav-links .nav-text { display: none; }
       .features-grid { grid-template-columns: 1fr; }
       .arch-detail-cards { grid-template-columns: 1fr; }
       section, .demo-section, .code-section { padding: 64px 0; }
-      .cta-wrap { padding: 40px 24px; }
+      .cta-section { padding: 40px 24px; }
     }
   </style>
 </head>
 <body>
 
-<nav class="nav">
+<nav class="nav" id="top">
   <div class="nav-inner">
-    <a class="brand" href="home.html">
+    <a class="brand" href="#top">
       <div class="brand-logo">OT</div>
       OpenTraffic
     </a>
     <div class="nav-links">
-      <a href="#features">特性</a>
-      <a href="#demo-basic">演示</a>
-      <a href="#architecture">架构</a>
-      <a href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer" class="nav-cta">快速开始</a>
-    </div>
-    <div class="lang-switch">
-      <button class="lang-btn lang-active" data-lang="en" onclick="setLang('en')">English</button>
-      <span class="lang-sep">|</span>
-      <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+      <a href="home.html" class="nav-text" data-zh="← 返回首页" data-en="← Home">← 返回首页</a>
+      <a href="#features" class="nav-text" data-zh="特性" data-en="Features">特性</a>
+      <a href="#demo-basic" class="nav-text" data-zh="演示" data-en="Demo">演示</a>
+      <a href="#architecture" class="nav-text" data-zh="架构" data-en="Architecture">架构</a>
+      <a href="#cta" class="nav-text" data-zh="开始使用" data-en="Get Started">开始使用</a>
+      <div class="lang-switch">
+        <button class="lang-btn lang-active" data-lang="en" onclick="setLang('en')">English</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -317,8 +331,7 @@
           <span class="hero-tag">Production Ready</span>
         </div>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer" data-zh="快速开始" data-en="Quick Start">快速开始</a>
-          <a class="btn btn-outline" href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine" target="_blank" rel="noreferrer" data-zh="查看源码" data-en="View Source">查看源码</a>
+          <a class="btn btn-primary" href="https://github.com/OpenTraffic-Team/OpenTraffic-Control" target="_blank" rel="noreferrer" data-zh="GitHub 仓库" data-en="GitHub Repository">GitHub 仓库</a>
         </div>
       </div>
       <div>
@@ -564,7 +577,7 @@
         <h2 data-zh="快速开始" data-en="Quick Start">快速开始</h2>
         <p class="section-desc" data-zh="三个示例覆盖从最简仿真到完整生产部署的全部场景，git clone 即可运行。" data-en="Three examples cover everything from minimal simulation to full production deployment. Just git clone and run.">三个示例覆盖从最简仿真到完整生产部署的全部场景，git clone 即可运行。</p>
         <div class="example-links">
-          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
+          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-Control/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
             <div class="example-link-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12bfa3" stroke-width="2.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
             </div>
@@ -573,7 +586,7 @@
               <small data-zh="最简单的仿真验证示例，5 分钟跑通" data-en="Simplest simulation demo, up and running in 5 minutes">最简单的仿真验证示例，5 分钟跑通</small>
             </div>
           </a>
-          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
+          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-Control/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
             <div class="example-link-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12bfa3" stroke-width="2.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
             </div>
@@ -582,7 +595,7 @@
               <small data-zh="完整 CityFlow 仿真，包含多算法切换" data-en="Full CityFlow simulation with multi-algorithm switching">完整 CityFlow 仿真，包含多算法切换</small>
             </div>
           </a>
-          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
+          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-Control/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
             <div class="example-link-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12bfa3" stroke-width="2.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
             </div>
@@ -600,8 +613,8 @@
             <span class="code-block-lang">bash</span>
           </div>
 <pre><span class="t-comment"># 查看所有示例</span>
-<span class="t-key">git clone</span> <span class="t-string">https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine</span>
-<span class="t-key">cd</span> OpenTraffic-Team/opentraffic-tsc-engine/algorithms_sdk/examples
+<span class="t-key">git clone</span> <span class="t-string">https://github.com/OpenTraffic-Team/OpenTraffic-Control</span>
+<span class="t-key">cd</span> OpenTraffic-Control/algorithms_sdk/examples
 
 <span class="t-comment"># CityFlow 仿真</span>
 <span class="t-tcmd">python</span> quick_demo.py
@@ -622,14 +635,16 @@
 </div>
 
 <!-- CTA -->
-<section style="padding: 90px 0;">
+<section id="cta" style="padding: 90px 0;">
   <div class="shell">
-    <div class="cta-wrap">
-      <h2 data-zh="准备好开始了吗？" data-en="Ready to get started?">准备好开始了吗？</h2>
-      <p data-zh="开源免费，支持 CityFlow 仿真和生产环境部署，欢迎贡献与反馈。" data-en="Open source and free. Supports CityFlow simulation and production deployment. Contributions and feedback welcome.">开源免费，支持 CityFlow 仿真和生产环境部署，欢迎贡献与反馈。</p>
-      <div class="cta-btns">
-        <a class="btn btn-primary" href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine" target="_blank" rel="noreferrer" data-zh="GitHub 仓库" data-en="GitHub Repository">GitHub 仓库</a>
-        <a class="btn btn-outline" href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer" data-zh="查看示例" data-en="View Examples">查看示例</a>
+    <div class="cta-section">
+      <div>
+        <div class="cta-kicker" data-zh="开始使用" data-en="Get Started">开始使用</div>
+        <h2 data-zh="查看控制系统仓库" data-en="View Control System Repo">查看控制系统仓库</h2>
+        <p class="cta-desc" data-zh="直接进入 GitHub 仓库获取代码、接口文档和对接材料，或浏览本页控制能力了解系统能力。" data-en="Go directly to the GitHub repository for source code, interface docs, and integration materials, or browse the control capabilities on this page.">直接进入 GitHub 仓库获取代码、接口文档和对接材料，或浏览本页控制能力了解系统能力。</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="https://github.com/OpenTraffic-Team/OpenTraffic-Control" target="_blank" rel="noreferrer" data-zh="GitHub 仓库" data-en="GitHub Repository">GitHub 仓库</a>
       </div>
     </div>
   </div>
@@ -645,10 +660,11 @@
       <span style="color:var(--subtle);font-weight:400;" data-zh="· 控制系统" data-en="· Control System">· 控制系统</span>
     </div>
     <div class="footer-links">
-      <a href="home.html" data-zh="平台首页" data-en="Platform Home">平台首页</a>
-      <a href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine" target="_blank" rel="noreferrer">GitHub</a>
-      <a href="https://github.com/OpenTraffic-Team/OpenTraffic-Team/opentraffic-tsc-engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer" data-zh="快速开始" data-en="Quick Start">快速开始</a>
-      <a href="opentraffic_fusion.html" data-zh="感知系统" data-en="Perception">感知系统</a>
+      <a href="home.html" data-zh="首页" data-en="Home">首页</a>
+      <a href="index_perception.html" data-zh="感知系统" data-en="Perception">感知系统</a>
+      <a href="index_control.html" data-zh="控制系统" data-en="Control">控制系统</a>
+      <a href="index_ops.html" data-zh="运维平台" data-en="OPS">运维平台</a>
+      <a href="https://github.com/OpenTraffic-Team/" target="_blank" rel="noreferrer">GitHub</a>
     </div>
   </div>
 </footer>
