@@ -338,18 +338,18 @@
         <div class="terminal-card">
           <div class="terminal-bar">
             <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
-            <span class="terminal-title">policy-manager -- status</span>
+            <span class="terminal-title">algorithm-sdk -- status</span>
           </div>
           <div class="terminal-body">
             <div class="t-row"><span class="t-label" data-zh="系统状态" data-en="System Status">系统状态</span><span class="t-val green">RUNNING</span></div>
-            <div class="t-row"><span class="t-label" data-zh="当前算法" data-en="Active Policy">当前算法</span><span class="t-val teal">v2 Offline-RL</span></div>
-            <div class="t-row"><span class="t-label" data-zh="决策延迟" data-en="Decision Latency">决策延迟</span><span class="t-val blue">&lt; 100 ms</span></div>
-            <div class="t-row"><span class="t-label">SafeRules</span><span class="t-val green">ACTIVE</span></div>
+            <div class="t-row"><span class="t-label" data-zh="当前算法" data-en="Active Algorithm">当前算法</span><span class="t-val teal" data-zh="v1 最大压力" data-en="v1 Max-Pressure">v1 最大压力</span></div>
+            <div class="t-row"><span class="t-label" data-zh="决策延迟" data-en="Decision Latency">决策延迟</span><span class="t-val blue">&lt; 10 ms</span></div>
+            <div class="t-row"><span class="t-label" data-zh="安全检查" data-en="Safety Check">安全检查</span><span class="t-val green">PASSED</span></div>
             <div class="t-row"><span class="t-label" data-zh="仿真内核" data-en="Simulator">仿真内核</span><span class="t-val orange">CityFlow</span></div>
             <div class="terminal-cmd">
-              <p><span class="prompt">$ </span>python quick_demo.py --algo v2 --env cityflow</p>
-              <p><span class="prompt">&gt; </span>PolicyManager initialized, running v2 offline-rl</p>
-              <p><span class="prompt">&gt; </span>Episode 1 / reward +42.3 / avg_wait 18.6s</p>
+              <p><span class="prompt">$ </span>python algorithms_sdk/examples/quick_demo.py</p>
+              <p><span class="prompt">&gt; </span><span data-zh="[Adapter] 仿真适配器初始化成功 - 算法版本: v1" data-en="[Adapter] Simulation adapter initialized - algorithm: v1">[Adapter] 仿真适配器初始化成功 - 算法版本: v1</span></p>
+              <p><span class="prompt">&gt; </span><span data-zh="[SDK] 初始化成功 - 版本: 1.0.0, 模式: cityflow" data-en="[SDK] Initialized - version: 1.0.0, mode: cityflow">[SDK] 初始化成功 - 版本: 1.0.0, 模式: cityflow</span></p>
             </div>
           </div>
         </div>
@@ -362,10 +362,10 @@
 <div class="stats-bar">
   <div class="shell">
     <div class="stats-grid">
-      <div class="stat-item"><div class="stat-value">3<span class="teal">+</span></div><div class="stat-label" data-zh="自适应算法" data-en="Adaptive Algorithms">自适应算法</div></div>
-      <div class="stat-item"><div class="stat-value">&lt;<span class="teal">100</span></div><div class="stat-label" data-zh="ms 决策延迟" data-en="ms Decision Latency">ms 决策延迟</div></div>
-      <div class="stat-item"><div class="stat-value">30<span class="teal">%+</span></div><div class="stat-label" data-zh="通行效率提升" data-en="Throughput Improvement">通行效率提升</div></div>
-      <div class="stat-item"><div class="stat-value" style="font-size:26px;"><span class="teal">CityFlow</span></div><div class="stat-label" data-zh="仿真兼容" data-en="Simulation Compatible">仿真兼容</div></div>
+      <div class="stat-item"><div class="stat-value">4<span class="teal">+</span></div><div class="stat-label" data-zh="算法版本" data-en="Algorithm Versions">算法版本</div></div>
+      <div class="stat-item"><div class="stat-value">&lt;<span class="teal">10</span></div><div class="stat-label" data-zh="ms 决策延迟" data-en="ms Decision Latency">ms 决策延迟</div></div>
+      <div class="stat-item"><div class="stat-value">1<span class="teal">Hz</span></div><div class="stat-label" data-zh="生产控制频率" data-en="Production Control Rate">生产控制频率</div></div>
+      <div class="stat-item"><div class="stat-value" style="font-size:22px;"><span class="teal">CityFlow/SUMO</span></div><div class="stat-label" data-zh="仿真兼容" data-en="Simulation Compatible">仿真兼容</div></div>
     </div>
   </div>
 </div>
@@ -376,18 +376,18 @@
     <div class="section-head-center">
       <div class="section-kicker" data-zh="Features" data-en="Features">Features</div>
       <h2 data-zh="核心能力" data-en="Core Capabilities">核心能力</h2>
-      <p class="section-desc" data-zh="从仿真到生产全链路支持，内置多算法自适应调度与多层安全机制。" data-en="Full pipeline from simulation to production, with multi-algorithm adaptive scheduling and multi-layer safety mechanisms.">从仿真到生产全链路支持，内置多算法自适应调度与多层安全机制。</p>
+      <p class="section-desc" data-zh="从仿真到生产全链路支持，内置多算法版本与多层安全机制。" data-en="Full pipeline from simulation to production, with multi-algorithm support and multi-layer safety mechanisms.">从仿真到生产全链路支持，内置多算法版本与多层安全机制。</p>
     </div>
     <div class="features-grid">
       <div class="feat-card">
-        <span class="feat-tag teal" data-zh="强化学习" data-en="Reinforcement Learning">强化学习</span>
-        <h3 data-zh="多算法自适应" data-en="Multi-Algorithm Adaptive">多算法自适应</h3>
-        <p data-zh="PolicyManager 统一调度 v1 Stable RL、v2 Offline RL、v3 Online RL 三种算法，支持运行时无缝切换策略。" data-en="PolicyManager orchestrates v1 Stable RL, v2 Offline RL, and v3 Online RL with seamless runtime policy switching.">PolicyManager 统一调度 v1 Stable RL、v2 Offline RL、v3 Online RL 三种算法，支持运行时无缝切换策略。</p>
+        <span class="feat-tag teal" data-zh="多算法" data-en="Multi-Algorithm">多算法</span>
+        <h3 data-zh="多算法支持" data-en="Multi-Algorithm Support">多算法支持</h3>
+        <p data-zh="AlgorithmSDK 内置 v1 最大压力、v2 MLP、v3 模糊控制、v4 注意力四种算法，通过 algo_version 参数选择算法版本。" data-en="AlgorithmSDK ships with four algorithms — v1 Max-Pressure, v2 MLP, v3 Fuzzy, v4 Attention — selectable via the algo_version parameter.">AlgorithmSDK 内置 v1 最大压力、v2 MLP、v3 模糊控制、v4 注意力四种算法，通过 algo_version 参数选择算法版本。</p>
       </div>
       <div class="feat-card">
         <span class="feat-tag blue" data-zh="实时决策" data-en="Real-time Decision">实时决策</span>
         <h3 data-zh="毫秒级响应" data-en="Millisecond Response">毫秒级响应</h3>
-        <p data-zh="单步决策延迟 &lt; 100ms，控制频率 1Hz，满足路口信号实时控制需求。" data-en="Single-step decision latency &lt; 100ms, control frequency 1Hz, meeting real-time signal control requirements.">单步决策延迟 &lt; 100ms，控制频率 1Hz，满足路口信号实时控制需求。</p>
+        <p data-zh="单步决策延迟 < 10ms，控制频率 1Hz，满足路口信号实时控制需求。" data-en="Single-step decision latency < 10ms, control frequency 1Hz, meeting real-time signal control requirements.">单步决策延迟 < 10ms，控制频率 1Hz，满足路口信号实时控制需求。</p>
       </div>
       <div class="feat-card">
         <span class="feat-tag green" data-zh="全链路" data-en="Full Pipeline">全链路</span>
@@ -396,18 +396,18 @@
       </div>
       <div class="feat-card">
         <span class="feat-tag orange" data-zh="安全机制" data-en="Safety">安全机制</span>
-        <h3 data-zh="多层安全规则" data-en="Multi-Layer SafeRules">多层安全规则</h3>
-        <p data-zh="内置 SafeRules 投票机制，当算法输出违反交通规则时自动回退到安全默认策略，确保路口结构化安全。" data-en="Built-in SafeRules voting mechanism. Automatically falls back to safe default policy when algorithm outputs violate traffic regulations.">内置 SafeRules 投票机制，当算法输出违反交通规则时自动回退到安全默认策略，确保路口结构化安全。</p>
+        <h3 data-zh="多层安全检查" data-en="Multi-Layer Safety Checks">多层安全检查</h3>
+        <p data-zh="决策结果内置安全检查标记，未通过检查的相位指令不予下发，确保路口信号合规运行。" data-en="Every decision carries a built-in safety check flag. Phase commands that fail the check are not dispatched, keeping intersection signals compliant.">决策结果内置安全检查标记，未通过检查的相位指令不予下发，确保路口信号合规运行。</p>
       </div>
       <div class="feat-card">
         <span class="feat-tag purple" data-zh="监控" data-en="Monitoring">监控</span>
         <h3 data-zh="实时监控告警" data-en="Real-time Monitoring">实时监控告警</h3>
-        <p data-zh="内置健康检查与指标上报，支持告警通知，实时推流与性能分析一不错过。" data-en="Built-in health checks and metric reporting, alert notifications, real-time throughput and performance analytics.">内置健康检查与指标上报，支持告警通知，实时推流与性能分析一不错过。</p>
+        <p data-zh="内置健康检查与指标上报，支持实时推流与性能分析，运行状态一目了然。" data-en="Built-in health checks and metric reporting with real-time streaming and performance analytics — full visibility into system status.">内置健康检查与指标上报，支持实时推流与性能分析，运行状态一目了然。</p>
       </div>
       <div class="feat-card">
         <span class="feat-tag teal" data-zh="部署" data-en="Deployment">部署</span>
         <h3 data-zh="傻瓜化部署" data-en="Zero-Config Deploy">傻瓜化部署</h3>
-        <p data-zh="一行命令启动仿真测试，内置示例脱解依赖，支持生产环境 Docker 化部署。" data-en="One command to start simulation testing. Built-in examples with minimal dependencies. Supports Dockerized production.">一行命令启动仿真测试，内置示例脱解依赖，支持生产环境 Docker 化部署。</p>
+        <p data-zh="一行命令启动仿真测试，内置示例极简依赖，支持生产环境 Docker 化部署。" data-en="One command to start simulation testing. Built-in examples with minimal dependencies. Supports Dockerized production.">一行命令启动仿真测试，内置示例极简依赖，支持生产环境 Docker 化部署。</p>
       </div>
     </div>
   </div>
@@ -418,7 +418,7 @@
   <div class="shell">
     <div class="demo-kicker" data-zh="Demo · 基础算法应用" data-en="Demo · Basic Algorithm">Demo · 基础算法应用</div>
     <h2 data-zh="基础算法应用展示" data-en="Basic Algorithm Demo">基础算法应用展示</h2>
-    <p class="section-desc" data-zh="展示在标准路口场景下，RL 信号控制算法的实际运行效果与仿真输出。" data-en="Demonstrates the real-world performance and simulation output of RL signal control algorithms in standard intersection scenarios.">展示在标准路口场景下，RL 信号控制算法的实际运行效果与仿真输出。</p>
+    <p class="section-desc" data-zh="展示在标准路口场景下，信号控制算法的实际运行效果与仿真输出。" data-en="Demonstrates the real-world performance and simulation output of signal control algorithms in standard intersection scenarios.">展示在标准路口场景下，信号控制算法的实际运行效果与仿真输出。</p>
     <div class="demo-grid">
       <div class="demo-item">
         <div class="demo-item-label">
@@ -428,7 +428,7 @@
         <div class="demo-media">
           <video controls preload="metadata" src="media/control/basic_demo.mp4"></video>
         </div>
-        <div class="demo-caption" data-zh="基础场景下 RL 控制算法实时运行，展示相位切换与配时决策过程。" data-en="RL control algorithm running in real-time in a baseline scenario, showcasing phase switching and timing decisions.">基础场景下 RL 控制算法实时运行，展示相位切换与配时决策过程。</div>
+        <div class="demo-caption" data-zh="基础场景下信号控制算法实时运行，展示相位切换与配时决策过程。" data-en="Signal control algorithm running in real-time in a baseline scenario, showcasing phase switching and timing decisions.">基础场景下信号控制算法实时运行，展示相位切换与配时决策过程。</div>
       </div>
       <div class="demo-item">
         <div class="demo-item-label">
@@ -438,7 +438,7 @@
         <div class="demo-media">
           <img src="media/control/basic_result.png" alt="基础算法效果截图" loading="lazy" />
         </div>
-        <div class="demo-caption" data-zh="仿真环境中算法决策结果可视化，路口通行效率提升 30%+。" data-en="Visualization of algorithm decision results in simulation environment. Intersection throughput improved by 30%+.">仿真环境中算法决策结果可视化，路口通行效率提升 30%+。</div>
+        <div class="demo-caption" data-zh="仿真环境中算法决策结果可视化，路口通行效率显著提升。" data-en="Visualization of algorithm decision results in simulation environment. Intersection throughput significantly improved.">仿真环境中算法决策结果可视化，路口通行效率显著提升。</div>
       </div>
     </div>
   </div>
@@ -459,7 +459,7 @@
         <div class="demo-media">
           <video controls preload="metadata" src="media/control/overflow_before.mp4"></video>
         </div>
-        <div class="demo-caption" data-zh="未启用 RL 控制算法的情况下，路口出现排队溢出，通行效率显著下降。" data-en="Without RL control enabled, the intersection experiences queue overflow and a significant drop in throughput.">未启用 RL 控制算法的情况下，路口出现排队溢出，通行效率显著下降。</div>
+        <div class="demo-caption" data-zh="未启用信号控制算法的情况下，路口出现排队溢出，通行效率显著下降。" data-en="Without signal control enabled, the intersection experiences queue overflow and a significant drop in throughput.">未启用信号控制算法的情况下，路口出现排队溢出，通行效率显著下降。</div>
       </div>
       <div class="demo-item">
         <div class="demo-item-label">
@@ -470,7 +470,7 @@
           <video controls preload="metadata" src="media/control/overflow_after.mp4"></video>
         </div>
         <div class="demo-caption">
-          <span data-zh="启用 RL 算法后溢出场景得到有效控制，排队长度大幅缩短。" data-en="After enabling RL algorithm, overflow is effectively controlled and queue length is significantly reduced.">启用 RL 算法后溢出场景得到有效控制，排队长度大幅缩短。</span>
+          <span data-zh="启用算法后溢出场景得到有效控制，排队长度大幅缩短。" data-en="After enabling the algorithm, overflow is effectively controlled and queue length is significantly reduced.">启用算法后溢出场景得到有效控制，排队长度大幅缩短。</span>
           &nbsp;<a href="media/control/overflow_after.mp4" download data-zh="下载视频" data-en="Download Video">下载视频</a>
         </div>
       </div>
@@ -508,10 +508,9 @@
         <div class="arch-step-num">LAYER 02</div>
         <div class="arch-step-name" data-zh="通信层" data-en="Communication Layer">通信层</div>
         <div class="arch-step-items">
-          <div class="arch-step-item active"><span class="item-dot purple"></span>Redis</div>
+          <div class="arch-step-item active"><span class="item-dot purple"></span>Redis Stream</div>
+          <div class="arch-step-item"><span class="item-dot purple"></span>Redis</div>
           <div class="arch-step-item"><span class="item-dot purple"></span>NATS</div>
-          <div class="arch-step-item"><span class="item-dot purple"></span>MQTT</div>
-          <div class="arch-step-item"><span class="item-dot purple"></span>WebSocket</div>
         </div>
       </div>
       <div class="arch-connector"><div class="arch-connector-line"></div></div>
@@ -522,10 +521,11 @@
         <div class="arch-step-num">LAYER 03</div>
         <div class="arch-step-name" data-zh="算法层" data-en="Algorithm Layer">算法层</div>
         <div class="arch-step-items">
-          <div class="arch-step-item active"><span class="item-dot green"></span>PolicyManager</div>
-          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v1 Stable RL" data-en="v1 Stable RL">v1 Stable RL</span></div>
-          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v2 Offline RL" data-en="v2 Offline RL">v2 Offline RL</span></div>
-          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v3 Online RL" data-en="v3 Online RL">v3 Online RL</span></div>
+          <div class="arch-step-item active"><span class="item-dot green"></span>AlgorithmSDK</div>
+          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v1 最大压力" data-en="v1 Max-Pressure">v1 最大压力</span></div>
+          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v2 MLP" data-en="v2 MLP">v2 MLP</span></div>
+          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v3 模糊控制" data-en="v3 Fuzzy">v3 模糊控制</span></div>
+          <div class="arch-step-item"><span class="item-dot green"></span><span data-zh="v4 注意力" data-en="v4 Attention">v4 注意力</span></div>
         </div>
       </div>
       <div class="arch-connector"><div class="arch-connector-line"></div></div>
@@ -537,7 +537,7 @@
         <div class="arch-step-name" data-zh="执行层" data-en="Execution Layer">执行层</div>
         <div class="arch-step-items">
           <div class="arch-step-item active"><span class="item-dot orange"></span><span data-zh="信号机" data-en="Signal Controller">信号机</span></div>
-          <div class="arch-step-item"><span class="item-dot orange"></span>SafeRules</div>
+          <div class="arch-step-item"><span class="item-dot orange"></span><span data-zh="安全检查" data-en="Safety Check">安全检查</span></div>
           <div class="arch-step-item"><span class="item-dot orange"></span><span data-zh="状态上报" data-en="State Report">状态上报</span></div>
           <div class="arch-step-item"><span class="item-dot orange"></span><span data-zh="告警通知" data-en="Alert Notification">告警通知</span></div>
         </div>
@@ -552,17 +552,17 @@
       <div class="arch-detail-card">
         <span class="detail-tag tag-purple" data-zh="通信 / 零配置切换" data-en="Comms / Zero-Config Switch">通信 / 零配置切换</span>
         <h4 data-zh="零配置切换" data-en="Zero-Config Transport">零配置切换</h4>
-        <p data-zh="Redis / NATS / MQTT 多通道支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。" data-en="Redis / NATS / MQTT multi-channel support. Same interface for simulation and production. Switch backends without changing algorithm code.">Redis / NATS / MQTT 多通道支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。</p>
+        <p data-zh="Redis / NATS 双通道支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。" data-en="Redis / NATS dual-channel support. Same interface for simulation and production. Switch backends without changing algorithm code.">Redis / NATS 双通道支持，仿真与生产环境同一套接口，切换通信后端无需修改算法代码。</p>
       </div>
       <div class="arch-detail-card">
-        <span class="detail-tag tag-green" data-zh="算法 / 多算法自适应" data-en="Algorithm / Adaptive">算法 / 多算法自适应</span>
-        <h4 data-zh="多算法自适应调度" data-en="Adaptive Algorithm Scheduling">多算法自适应调度</h4>
-        <p data-zh="PolicyManager 根据环境状态与历史奖励动态选择最优策略，支持 A/B 测试与在线持续学习更新。" data-en="PolicyManager dynamically selects optimal policy based on environment state and historical reward. Supports A/B testing and online continual learning.">PolicyManager 根据环境状态与历史奖励动态选择最优策略，支持 A/B 测试与在线持续学习更新。</p>
+        <span class="detail-tag tag-green" data-zh="算法 / 多版本" data-en="Algorithm / Multi-Version">算法 / 多版本</span>
+        <h4 data-zh="多算法版本切换" data-en="Multi-Algorithm Switching">多算法版本切换</h4>
+        <p data-zh="通过 algo_version 参数在 v1–v4 算法间切换，同一套接口运行不同算法，便于对比评估与算法选型。" data-en="Switch between v1–v4 algorithms via the algo_version parameter. Run different algorithms through one interface for easy comparison and selection.">通过 algo_version 参数在 v1–v4 算法间切换，同一套接口运行不同算法，便于对比评估与算法选型。</p>
       </div>
       <div class="arch-detail-card">
         <span class="detail-tag tag-orange" data-zh="安全 / 多层防护" data-en="Safety / Multi-Layer">安全 / 多层防护</span>
         <h4 data-zh="多层安全防护" data-en="Multi-Layer Safety">多层安全防护</h4>
-        <p data-zh="SafeRules 兜底层确保所有下发指令符合交通法规，异常时自动切换到固定配时保障路口基本通行。" data-en="SafeRules fallback layer ensures all issued commands comply with traffic regulations. Automatically switches to fixed timing on anomaly.">SafeRules 兜底层确保所有下发指令符合交通法规，异常时自动切换到固定配时保障路口基本通行。</p>
+        <p data-zh="决策结果内置安全检查标记，未通过检查的相位指令不予下发，确保路口信号合规运行。" data-en="Decisions carry a built-in safety check flag. Commands failing the check are never dispatched, keeping intersection signals compliant.">决策结果内置安全检查标记，未通过检查的相位指令不予下发，确保路口信号合规运行。</p>
       </div>
     </div>
   </div>
@@ -577,31 +577,31 @@
         <h2 data-zh="快速开始" data-en="Quick Start">快速开始</h2>
         <p class="section-desc" data-zh="三个示例覆盖从最简仿真到完整生产部署的全部场景，git clone 即可运行。" data-en="Three examples cover everything from minimal simulation to full production deployment. Just git clone and run.">三个示例覆盖从最简仿真到完整生产部署的全部场景，git clone 即可运行。</p>
         <div class="example-links">
-          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-TSC-Engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
+          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-TSC-Engine/blob/main/algorithms_sdk/examples/quick_demo.py" target="_blank" rel="noreferrer">
             <div class="example-link-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12bfa3" stroke-width="2.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
             </div>
             <div>
               <strong>quick_demo.py</strong>
-              <small data-zh="最简单的仿真验证示例，5 分钟跑通" data-en="Simplest simulation demo, up and running in 5 minutes">最简单的仿真验证示例，5 分钟跑通</small>
+              <small data-zh="最简仿真示例，约 90 秒跑通" data-en="Simplest simulation demo, ~90 seconds">最简仿真示例，约 90 秒跑通</small>
             </div>
           </a>
-          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-TSC-Engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
+          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-TSC-Engine/blob/main/algorithms_sdk/examples/simulation_demo.py" target="_blank" rel="noreferrer">
             <div class="example-link-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12bfa3" stroke-width="2.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
             </div>
             <div>
               <strong>simulation_demo.py</strong>
-              <small data-zh="完整 CityFlow 仿真，包含多算法切换" data-en="Full CityFlow simulation with multi-algorithm switching">完整 CityFlow 仿真，包含多算法切换</small>
+              <small data-zh="完整 CityFlow 仿真，包含统计与分析" data-en="Full CityFlow simulation with statistics and analysis">完整 CityFlow 仿真，包含统计与分析</small>
             </div>
           </a>
-          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-TSC-Engine/tree/main/algorithms_sdk/examples" target="_blank" rel="noreferrer">
+          <a class="example-link" href="https://github.com/OpenTraffic-Team/OpenTraffic-TSC-Engine/blob/main/algorithms_sdk/examples/production_demo.py" target="_blank" rel="noreferrer">
             <div class="example-link-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#12bfa3" stroke-width="2.5"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
             </div>
             <div>
               <strong>production_demo.py</strong>
-              <small data-zh="对接 Redis/NATS 的生产环境完整示例" data-en="Full production example with Redis/NATS integration">对接 Redis/NATS 的生产环境完整示例</small>
+              <small data-zh="生产环境示例，对接 Redis/NATS 中间件" data-en="Production example with Redis/NATS integration">生产环境示例，对接 Redis/NATS 中间件</small>
             </div>
           </a>
         </div>
@@ -612,22 +612,22 @@
             <span class="code-block-title">在 GitHub 上查看完整示例</span>
             <span class="code-block-lang">bash</span>
           </div>
-<pre><span class="t-comment"># 查看所有示例</span>
+<pre><span class="t-comment"># 获取代码并安装 SDK</span>
 <span class="t-key">git clone</span> <span class="t-string">https://github.com/OpenTraffic-Team/OpenTraffic-TSC-Engine</span>
-<span class="t-key">cd</span> OpenTraffic-TSC-Engine/algorithms_sdk/examples
+<span class="t-key">cd</span> OpenTraffic-TSC-Engine
+<span class="t-key">pip install -e</span> <span class="t-string">./algorithms_sdk/</span>
 
-<span class="t-comment"># CityFlow 仿真</span>
-<span class="t-tcmd">python</span> quick_demo.py
+<span class="t-comment"># CityFlow 快速演示（约 90 秒）</span>
+<span class="t-tcmd">python</span> algorithms_sdk/examples/quick_demo.py
 
-<span class="t-comment"># SUMO 仿真</span>
-<span class="t-tcmd">python</span> simulation_demo.py
+<span class="t-comment"># CityFlow 完整仿真（含统计与分析）</span>
+<span class="t-tcmd">python</span> algorithms_sdk/examples/simulation_demo.py
 
-<span class="t-comment"># 生产环境</span>
-<span class="t-tcmd">python</span> production_demo.py
+<span class="t-comment"># 生产环境（先检查中间件配置）</span>
+<span class="t-tcmd">python</span> algorithms_sdk/examples/production_demo.py --check
 
-<span class="t-comment"># 或直接 pip 安装</span>
-<span class="t-key">pip install</span> <span class="t-string">opentraffic-sdk</span>
-<span class="t-key">python</span> -c <span class="t-string">"from algorithms_sdk import AlgorithmSDK; print('OK')"</span></pre>
+<span class="t-comment"># 验证安装</span>
+<span class="t-tcmd">python</span> -c <span class="t-string">"from algorithms_sdk import AlgorithmSDK; print('OK')"</span></pre>
         </div>
       </div>
     </div>
